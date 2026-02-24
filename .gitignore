@@ -1,3 +1,7 @@
+# Personal health data - do not push
+data/raw/
+data/processed/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
