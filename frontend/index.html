@@ -8,12 +8,13 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1> Cycle Tracker</h1>
+    <main class="container">
+        <h1>Cycle Tracker</h1>
+        <p class="subtitle">Log today's temperature to check your fertile window.</p>
 
         <div class="input-section">
-            <label for="temperature"> Today's temperature (°C)</label>
-            <input type="number" id="temperature" step="0.01" placeholder="36.5">
+            <label for="temperature">Temperature (°C)</label>
+            <input type="number" id="temperature" step="0.01" min="34" max="42" placeholder="36.50">
 
             <label for="date">Date</label>
             <input type="date" id="date">
@@ -22,19 +23,26 @@
                 <input type="checkbox" id="menstruation">
                 <label for="menstruation">Menstruation today</label>
             </div>
-            <button type="button" id="log-btn">Save & check fertility</button>
+
+            <button type="button" id="log-btn">Save &amp; check fertility</button>
         </div>
 
-        <div class="result-section" id="result" style="display: none;">
+        <p class="message" id="message" hidden></p>
+
+        <section class="result-section" id="result" hidden>
             <div class="status-circle" id="status-circle"></div>
             <h2 id="status-text"></h2>
-            <p id="cycle-day"></p>
-            <p id="coverline"></p>
-        </div>
-        
-        
-    </div>
-    
+            <div class="detail-row">
+                <span>Cycle day</span>
+                <span id="cycle-day">–</span>
+            </div>
+            <div class="detail-row">
+                <span>Coverline</span>
+                <span id="coverline">–</span>
+            </div>
+        </section>
+    </main>
+
     <script src="app.js"></script>
 </body>
 </html>
