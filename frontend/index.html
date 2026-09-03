@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cycle Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1> Cycle Tracker</h1>
+
+        <div class="input-section">
+            <label for="temperature"> Today's temperature (°C)</label>
+            <input type="number" id="temperature" step="0.01" placeholder="36.5">
+
+            <label for="date">Date</label>
+            <input type="date" id="date">
+
+            <div class="checkbox-row">
+                <input type="checkbox" id="menstruation">
+                <label for="menstruation">Menstruation today</label>
+            </div>
+            <button type="button" id="log-btn">Save & check fertility</button>
+        </div>
+
+        <div class="result-section" id="result" style="display: none;">
+            <div class="status-circle" id="status-circle"></div>
+            <h2 id="status-text"></h2>
+            <p id="cycle-day"></p>
+            <p id="coverline"></p>
+        </div>
+        
+        
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,6 +1,21 @@
 # Personal health data - do not push
 data/raw/
 data/processed/
+*_private.ipynb
+.env
+.env.*
+!.env.example
+
+# Never commit real cycle exports, wherever they land
+cycle_data.csv
+**/cycle_data*.csv
+!data/synthetic/cycle_data_synthetic.csv
+
+# macOS / editor cruft (leaks folder names and local paths)
+.DS_Store
+**/.DS_Store
+.vscode/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

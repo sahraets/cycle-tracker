@@ -1,0 +1,37 @@
+#!/bin/bash
+# Blocks commits that would leak personal health data.
+# Enable once with:  git config core.hooksPath .githooks
+fail=0
+
+# 1. Notebooks must be committed with no saved outputs.
+for f in $(git diff --cached --name-only --diff-filter=ACM | grep '\.ipynb$'); do
+    if git show ":$f" | python3 -c "
+import json,sys
+nb=json.load(sys.stdin)
+sys.exit(1 if any(c.get('outputs') for c in nb.get('cells',[])) else 0)
+" ; then :; else
+        echo "BLOCKED: $f has saved cell outputs. Clear all outputs before committing."
+        fail=1
+    fi
+done
+
+# 2. No real data files, no absolute home paths, no obvious secrets.
+for f in $(git diff --cached --name-only --diff-filter=ACM); do
+    case "$f" in
+        data/raw/*|data/processed/*|*_private.ipynb|.env)
+            echo "BLOCKED: $f is personal data and must never be committed."; fail=1; continue;;
+        .githooks/*)
+            continue;;  # the hook itself contains these patterns by design
+    esac
+    if git show ":$f" | grep -qI '/Users/'; then
+        echo "BLOCKED: $f contains an absolute /Users/ path. Use a relative path or CYCLE_DATA_PATH."
+        fail=1
+    fi
+    if git show ":$f" | grep -qIE '(sk-[A-Za-z0-9]{16,}|SECRET_KEY *= *["'\''][^"'\'']+|PASSWORD *= *["'\''][^"'\'']+)'; then
+        echo "BLOCKED: $f looks like it contains a secret."
+        fail=1
+    fi
+done
+
+[ $fail -eq 1 ] && echo "" && echo "Commit aborted. Fix the above, or bypass with --no-verify if you are certain."
+exit $fail
